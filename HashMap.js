@@ -25,8 +25,8 @@ class HashMap {
     if (this.bucket[hashed] != null) {
       if (this.bucket[hashed].contains(key)) {
         let index = this.bucket[hashed].find(key);
-        removeAt(index);
-        insertAt(value, index);
+        this.bucket[hashed].removeAt(index);
+        this.bucket[hashed].insertAt(value, index);
       } else {
         this.bucket[hashed].append({ [key]: value });
         this.count++;
@@ -66,12 +66,19 @@ class HashMap {
     if (this.bucket[hashed] != null) {
       if (this.bucket[hashed].contains(key)) {
         let index = this.bucket[hashed].find(key);
-        removeAt(index);
+        this.bucket[hashed].removeAt(index);
+        this.count--;
         return true;
       }
       return false;
     }
     return false;
+  }
+
+  clear(){
+    this.bucket = Array.from({length: this.capacity});
+    this.count = 0;
+
   }
 }
 
@@ -82,3 +89,9 @@ test.set("banana", "yellow");
 console.log(test.set("lion", "golden"));
 console.log(test.length());
 console.log(test.has("lion"));
+test.remove('lion')
+console.log(test.has("lion"));
+console.log(test.length());
+test.clear();
+console.log(test.set("lion", "golden"));
+console.log(test.length());
