@@ -93,7 +93,8 @@ class LinkedList {
       let start = this.head;
       let count = 0;
       while (start != null) {
-        if (start.value == value) return count;
+        let key = Object.keys(start.value);
+        if(key == value) return count;
         count++;
         start = start.nextNode;
       }

@@ -59,6 +59,20 @@ class HashMap {
     }
     return false;
   }
+
+  remove(key){
+    let hashed = this.hash(key);
+
+    if (this.bucket[hashed] != null) {
+      if (this.bucket[hashed].contains(key)) {
+        let index = this.bucket[hashed].find(key);
+        removeAt(index);
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
 }
 
 const test = new HashMap();
