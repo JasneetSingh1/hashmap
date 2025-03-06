@@ -121,12 +121,36 @@ class HashMap {
 
     return end;
   }
-}
-const test = new HashMap();
-test.set("apple", "red");
-test.set("banana", "yellow");
 
-console.log(test.set("lion", "golden"));
+  entries() {
+    let pairs = [];
+    let result = [];
+    let end = [];
+    this.bucket.forEach((bucket) => {
+      if (bucket != null) {
+        pairs.push(bucket.getValues());
+      }
+    });
+
+    pairs.forEach((values) => {
+      result.push(values);
+    });
+
+    for (let i = 0; i < result.length; i++) {
+      end.push(result[i][0]);
+    }
+
+    return end;
+  }
+}
+const test = new HashMap() // or HashMap() if using a factory
+test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('lion', 'golden')
 console.log(test.length());
-console.log(test.keys());
-console.log(test.values());
+console.log(test.has('lion'))
+console.log(test.get('lion'))
+test.set('lion', 'goldenn')
+console.log(test.has('lion'))
+console.log(test.get('lion'))

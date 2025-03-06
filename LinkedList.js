@@ -34,7 +34,7 @@ class LinkedList {
     size() {
       let count = 0;
       if (this.head == null) return 0;
-  
+       
       let start = this.head;
       while (start != null) {
         start = start.nextNode;
@@ -125,11 +125,12 @@ class LinkedList {
     insertAt(value, index) {
       let before = this.head;
       let size = this.size() - 1;
-      if (index > size) return  console.log("Index out of bounds");
       if(index == 0){
-          this.prepend(value);
-          return;
-      }
+        this.prepend(value);
+        return;
+    }
+      if (index > size) return  console.log("Index out of bounds");
+
       if(index == size){
           this.append(value);
           return;
