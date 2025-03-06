@@ -100,8 +100,28 @@ class HashMap {
 
     return end;
   }
-}
 
+  values() {
+    let pairs = [];
+    let result = [];
+    let end = [];
+    this.bucket.forEach((bucket) => {
+      if (bucket != null) {
+        pairs.push(bucket.getValues());
+      }
+    });
+
+    pairs.forEach((values) => {
+      result.push(Object.values(values[0]));
+    });
+
+    for (let i = 0; i < result.length; i++) {
+      end.push(result[i][0]);
+    }
+
+    return end;
+  }
+}
 const test = new HashMap();
 test.set("apple", "red");
 test.set("banana", "yellow");
@@ -109,3 +129,4 @@ test.set("banana", "yellow");
 console.log(test.set("lion", "golden"));
 console.log(test.length());
 console.log(test.keys());
+console.log(test.values());
