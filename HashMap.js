@@ -5,7 +5,7 @@ class HashMap {
     this.count = 0;
     this.capacity = 16;
     this.loadFactor = 0.75;
-    this.bucket = Array.from({length: this.capacity});
+    this.bucket = Array.from({ length: this.capacity });
   }
 
   hash(key) {
@@ -19,23 +19,21 @@ class HashMap {
     return hashCode;
   }
 
-  set(key, value){
+  set(key, value) {
     let hashed = this.hash(key);
 
-    if(this.bucket[hashed] != null){
-      if(this.bucket[hashed].contains(key)){
+    if (this.bucket[hashed] != null) {
+      if (this.bucket[hashed].contains(key)) {
         let index = this.bucket[hashed].find(key);
         removeAt(index);
         insertAt(value, index);
-      }else{
-        this.bucket[hashed].append({[key] : value});
+      } else {
+        this.bucket[hashed].append({ [key]: value });
         this.count++;
       }
-      
-    }
-    else{
+    } else {
       let linked = new LinkedList();
-      linked.append({[key] : value});
+      linked.append({ [key]: value });
       this.bucket[hashed] = linked;
       this.count++;
     }
@@ -43,31 +41,30 @@ class HashMap {
     return this.bucket;
   }
 
-  length(){
+  length() {
     return this.count;
   }
-  get(key){
+  get(key) {
     let hashed = this.hash(key);
-    if(this.bucket[hashed] != null){
-      return this.bucket[hashed].contains(key)
-      // if(this.bucket[hashed].contains(key)){
-      //   let index = this.bucket[hashed].find(key);
-      //   let result = this.bucket[hashed].getAt(index);
-      //   return result;
-      // }else{
-      //   return null;
-      // }
-      
+    if (this.bucket[hashed] != null) {
+      return this.bucket[hashed].contains(key);
     }
     return null;
   }
 
+  has(key){
+    let hashed = this.hash(key);
+    if (this.bucket[hashed] != null) {
+      if( this.bucket[hashed].contains(key)) return true;
+    }
+    return false;
+  }
 }
 
-const test = new HashMap()
-test.set('apple', 'red')
-test.set('banana', 'yellow')
+const test = new HashMap();
+test.set("apple", "red");
+test.set("banana", "yellow");
 
-console.log(test.set('lion', 'golden'))
+console.log(test.set("lion", "golden"));
 console.log(test.length());
-console.log(test.get('banana'));
+console.log(test.has("lion"));
