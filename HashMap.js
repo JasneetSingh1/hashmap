@@ -52,15 +52,15 @@ class HashMap {
     return null;
   }
 
-  has(key){
+  has(key) {
     let hashed = this.hash(key);
     if (this.bucket[hashed] != null) {
-      if( this.bucket[hashed].contains(key)) return true;
+      if (this.bucket[hashed].contains(key)) return true;
     }
     return false;
   }
 
-  remove(key){
+  remove(key) {
     let hashed = this.hash(key);
 
     if (this.bucket[hashed] != null) {
@@ -75,10 +75,30 @@ class HashMap {
     return false;
   }
 
-  clear(){
-    this.bucket = Array.from({length: this.capacity});
+  clear() {
+    this.bucket = Array.from({ length: this.capacity });
     this.count = 0;
+  }
 
+  keys() {
+    let pairs = [];
+    let result = [];
+    let end = [];
+    this.bucket.forEach((bucket) => {
+      if (bucket != null) {
+        pairs.push(bucket.getValues());
+      }
+    });
+
+    pairs.forEach((values) => {
+      result.push(Object.keys(values[0]));
+    });
+
+    for (let i = 0; i < result.length; i++) {
+      end.push(result[i][0]);
+    }
+
+    return end;
   }
 }
 
@@ -88,10 +108,4 @@ test.set("banana", "yellow");
 
 console.log(test.set("lion", "golden"));
 console.log(test.length());
-console.log(test.has("lion"));
-test.remove('lion')
-console.log(test.has("lion"));
-console.log(test.length());
-test.clear();
-console.log(test.set("lion", "golden"));
-console.log(test.length());
+console.log(test.keys());

@@ -111,6 +111,16 @@ class LinkedList {
       result = result + "null";
       return result;
     }
+
+    getValues(){
+        let result = [];
+        let start = this.head;
+        while(start != null){
+            result.push(start.value);
+            start = start.nextNode;
+        }
+        return result;
+    }
   
     insertAt(value, index) {
       let before = this.head;
