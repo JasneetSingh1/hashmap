@@ -26,7 +26,7 @@ class HashMap {
       if (this.bucket[hashed].contains(key)) {
         let index = this.bucket[hashed].find(key);
         this.bucket[hashed].removeAt(index);
-        this.bucket[hashed].insertAt(value, index);
+        this.bucket[hashed].append({ [key]: value });
       } else {
         this.bucket[hashed].append({ [key]: value });
         this.count++;
@@ -154,3 +154,8 @@ console.log(test.get('lion'))
 test.set('lion', 'goldenn')
 console.log(test.has('lion'))
 console.log(test.get('lion'))
+console.log(test.keys())
+console.log(test.values())
+console.log(test.entries())
+
+// Just need to add the rehashing code and I am done
