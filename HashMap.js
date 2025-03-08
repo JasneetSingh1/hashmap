@@ -22,25 +22,6 @@ class HashMap {
   set(key, value) {
     let hashed = this.hash(key);
 
-    if (this.count / this.capacity > this.loadFactor) {
-      let pairs = [];
-      let end = [];
-
-      this.bucket.forEach((bucket) => {
-        if (bucket != null) {
-          pairs.push(bucket.getValues());
-        }
-      });
-
-      const res = pairs.flat();
-      this.capacity = this.capacity * 2;
-      this.bucket = Array.from({ length: this.capacity });
-      res.forEach((obj) => {
-      for (const [key, value] of Object.entries(obj)) {
-        this.set(key, value);
-      }
-    });
-    }
     if (this.bucket[hashed] != null) {
       if (this.bucket[hashed].contains(key)) {
         let index = this.bucket[hashed].find(key);
@@ -57,10 +38,31 @@ class HashMap {
       this.count++;
     }
 
+    if (this.count / this.capacity > this.loadFactor) {
+      let pairs = [];
+      let end = [];
+
+      this.bucket.forEach((bucket) => {
+        if (bucket != null) {
+          pairs.push(bucket.getValues());
+        }
+      });
+
+      const res = pairs.flat();
+      this.capacity = this.capacity * 2;
+      this.bucket = Array.from({ length: this.capacity });
+      this.count = 0;
+      res.forEach((obj) => {
+        for (const [key, value] of Object.entries(obj)) {
+          this.set(key, value);
+        }
+      });
+    }
+
     return this.bucket;
   }
 
-  reHash(){
+  reHash() {
     let pairs = [];
     let end = [];
     this.bucket.forEach((bucket) => {
@@ -168,7 +170,7 @@ class HashMap {
 
     res.forEach((obj) => {
       for (const [key, value] of Object.entries(obj)) {
-        end.push(`${key}: ${value}`);
+        end.push([`${key}: ${value}`]);
       }
     });
 
@@ -179,15 +181,14 @@ const test = new HashMap(); // or HashMap() if using a factory
 test.set("apple", "red");
 test.set("banana", "yellow");
 test.set("carrot", "orange");
+test.set("dog", "brown");
+test.set("elephant", "gray");
+test.set("frog", "green");
+test.set("grape", "purple");
+test.set("hat", "black");
+test.set("ice cream", "white");
+test.set("jacket", "blue");
+test.set("kite", "pink");
 test.set("lion", "golden");
-console.log(test.length());
-console.log(test.has("lion"));
-console.log(test.get("lion"));
-test.set("lion", "goldenn");
-console.log(test.has("lion"));
-console.log(test.get("lion"));
-console.log(test.keys());
-console.log(test.values());
-console.log(test.entries());
-
-// Just need to add the rehashing code and I am done
+//This will make your load levels exceed your load factor, triggering your hash map’s growth functionality and doubling its capacity:
+// test.set('moon', 'silver')
