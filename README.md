@@ -49,25 +49,25 @@ This project is a custom implementation of a HashMap in JavaScript. The goal is 
 
 ## Project Challenges
 
-# Ensuring proper hashing:
+### Ensuring proper hashing:
 
 Initially, the hash function didn't handle large keys well, leading to integer overflow issues.
 
 Applying the modulo operator inside the loop fixed this issue.
 
-# Handling collisions:
+### Handling collisions:
 
 Used linked lists inside buckets to allow multiple key-value pairs in the same index.
 
 Required iteration through the linked list to find the correct key.
 
-# Resizing the hash map:
+### Resizing the hash map:
 
 When the load factor exceeded 0.75, rehashing all elements into a larger bucket structure was required.
 
 Extracting key-value pairs while preserving their original association was challenging.
 
-# Accessing dynamic keys in objects:
+### Accessing dynamic keys in objects:
 
 Initially, { key: value } stored "key" as a string instead of using the dynamic key value.
 
