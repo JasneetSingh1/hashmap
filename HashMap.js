@@ -13,7 +13,7 @@ class HashMap {
 
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
-      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % 16;
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
     }
 
     return hashCode;
@@ -22,6 +22,25 @@ class HashMap {
   set(key, value) {
     let hashed = this.hash(key);
 
+    if (this.count / this.capacity > this.loadFactor) {
+      let pairs = [];
+      let end = [];
+
+      this.bucket.forEach((bucket) => {
+        if (bucket != null) {
+          pairs.push(bucket.getValues());
+        }
+      });
+
+      const res = pairs.flat();
+      this.capacity = this.capacity * 2;
+      this.bucket = Array.from({ length: this.capacity });
+      res.forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        this.set(key, value);
+      }
+    });
+    }
     if (this.bucket[hashed] != null) {
       if (this.bucket[hashed].contains(key)) {
         let index = this.bucket[hashed].find(key);
@@ -39,6 +58,24 @@ class HashMap {
     }
 
     return this.bucket;
+  }
+
+  reHash(){
+    let pairs = [];
+    let end = [];
+    this.bucket.forEach((bucket) => {
+      if (bucket != null) {
+        pairs.push(bucket.getValues());
+      }
+    });
+
+    const res = pairs.flat();
+
+    res.forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        end.push(`${key}: ${value}`);
+      }
+    });
   }
 
   length() {
@@ -82,7 +119,6 @@ class HashMap {
 
   keys() {
     let pairs = [];
-    let result = [];
     let end = [];
     this.bucket.forEach((bucket) => {
       if (bucket != null) {
@@ -90,20 +126,18 @@ class HashMap {
       }
     });
 
-    pairs.forEach((values) => {
-      result.push(Object.keys(values[0]));
+    const res = pairs.flat();
+
+    res.forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        end.push(`${key}`);
+      }
     });
-
-    for (let i = 0; i < result.length; i++) {
-      end.push(result[i][0]);
-    }
-
     return end;
   }
 
   values() {
     let pairs = [];
-    let result = [];
     let end = [];
     this.bucket.forEach((bucket) => {
       if (bucket != null) {
@@ -111,20 +145,18 @@ class HashMap {
       }
     });
 
-    pairs.forEach((values) => {
-      result.push(Object.values(values[0]));
+    const res = pairs.flat();
+
+    res.forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        end.push(`${value}`);
+      }
     });
-
-    for (let i = 0; i < result.length; i++) {
-      end.push(result[i][0]);
-    }
-
     return end;
   }
 
   entries() {
     let pairs = [];
-    let result = [];
     let end = [];
     this.bucket.forEach((bucket) => {
       if (bucket != null) {
@@ -132,30 +164,30 @@ class HashMap {
       }
     });
 
-    pairs.forEach((values) => {
-      result.push(values);
-    });
+    const res = pairs.flat();
 
-    for (let i = 0; i < result.length; i++) {
-      end.push(result[i][0]);
-    }
+    res.forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        end.push(`${key}: ${value}`);
+      }
+    });
 
     return end;
   }
 }
-const test = new HashMap() // or HashMap() if using a factory
-test.set('apple', 'red')
-test.set('banana', 'yellow')
-test.set('carrot', 'orange')
-test.set('lion', 'golden')
+const test = new HashMap(); // or HashMap() if using a factory
+test.set("apple", "red");
+test.set("banana", "yellow");
+test.set("carrot", "orange");
+test.set("lion", "golden");
 console.log(test.length());
-console.log(test.has('lion'))
-console.log(test.get('lion'))
-test.set('lion', 'goldenn')
-console.log(test.has('lion'))
-console.log(test.get('lion'))
-console.log(test.keys())
-console.log(test.values())
-console.log(test.entries())
+console.log(test.has("lion"));
+console.log(test.get("lion"));
+test.set("lion", "goldenn");
+console.log(test.has("lion"));
+console.log(test.get("lion"));
+console.log(test.keys());
+console.log(test.values());
+console.log(test.entries());
 
 // Just need to add the rehashing code and I am done
